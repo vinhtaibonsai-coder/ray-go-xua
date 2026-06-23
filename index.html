@@ -3,202 +3,90 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
 <title>Ray Gỗ Xưa</title>
-
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
+body{background:#f5f5f5;}
+.header{background:#fff;padding:15px;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.08);}
+.logo{font-size:24px;font-weight:bold;text-align:center;}
+.search{margin-top:10px;}
+.search input{width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;}
 
-body{
-background:#f5f5f5;
-}
+/* Gallery Style */
+.gallery {max-width: 1200px; margin: auto; padding: 20px;}
+.folder-title {font-size: 1.5em; font-weight: bold; margin: 30px 0 15px; color: #333; border-left: 5px solid #0068ff; padding-left: 10px;}
+.grid-container {display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px;}
+.card {background: #fff; border-radius: 8px; overflow: hidden; cursor: pointer; border: 1px solid #eee; transition: 0.3s;}
+.card:hover {transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1);}
+.card img {width: 100%; height: 200px; object-fit: cover; display: block;}
 
-.header{
-background:#fff;
-padding:15px;
-position:sticky;
-top:0;
-z-index:100;
-box-shadow:0 2px 10px rgba(0,0,0,.08);
-}
-
-.logo{
-font-size:24px;
-font-weight:bold;
-text-align:center;
-}
-
-.search{
-margin-top:10px;
-}
-
-.search input{
-width:100%;
-padding:12px;
-border:1px solid #ddd;
-border-radius:10px;
-}
-
-.gallery {
-    max-width: 1200px;
-    margin: auto;
-    padding: 20px;
-    display: grid;
-    /* Tự động chia cột tùy màn hình, đảm bảo card đủ rộng */
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
-    gap: 25px;
-}
-
-.card {
-    background: #fff;
-    border-radius: 8px;
-    border: 1px solid #eee;
-    transition: transform 0.2s; /* Hiệu ứng nhẹ khi di chuột */
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.card img {
-    width: 100%;
-    height: 250px; /* Cố định chiều cao để khung hình đều nhau */
-    object-fit: cover; /* Cắt ảnh vừa vặn khung mà không bị méo */
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-}
-
-.info {
-    padding: 15px;
-    text-align: center;
-}
-.name{
-font-weight:bold;
-margin-bottom:5px;
-}
-
-.modal{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.9);
-z-index:999;
-}
-
-.modal img{
-max-width:95%;
-max-height:90vh;
-position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-}
-
-.close{
-position:absolute;
-right:20px;
-top:10px;
-font-size:40px;
-color:white;
-cursor:pointer;
-}
-
-.zalo{
-position:fixed;
-bottom:20px;
-right:20px;
-background:#0068ff;
-color:white;
-padding:12px 18px;
-border-radius:30px;
-text-decoration:none;
-font-weight:bold;
-}
+/* Modal & Zalo */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:999;}
+.modal img{max-width:95%;max-height:90vh;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);}
+.close{position:absolute;right:20px;top:10px;font-size:40px;color:white;cursor:pointer;}
+.zalo{position:fixed;bottom:20px;right:20px;background:#0068ff;color:white;padding:12px 18px;border-radius:30px;text-decoration:none;font-weight:bold;z-index:99;}
 </style>
 </head>
-
 <body>
 
 <div class="header">
-<div class="logo">RAY GỖ XƯA</div>
-
-<div class="search">
-<input type="text" id="search" placeholder="Tìm mã sản phẩm...">
-</div>
+    <div class="logo">RAY GỖ XƯA</div>
+    <div class="search"><input type="text" id="search" placeholder="Tìm kiếm sản phẩm..."></div>
 </div>
 
 <div id="gallery" class="gallery"></div>
 
 <div class="modal" id="modal">
-<span class="close" onclick="closeModal()">&times;</span>
-<img id="modalImg">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <img id="modalImg">
 </div>
 
-<a class="zalo" href="https://zalo.me/SODIENTHOAI">
-Liên hệ Zalo
-</a>
+<a class="zalo" href="https://zalo.me/SODIENTHOAI">Liên hệ Zalo</a>
 
 <script>
-
-/* DÁN LINK APPS SCRIPT VÀO ĐÂY */
 const API_URL = "https://script.google.com/macros/s/AKfycbxDFIH8zOdVCWtatU-uz90CLyVxM2GSIvV85AYG70DIt6_QmYz6Fia7jEGpBgG2EovZHA/exec";
-
 let allData = [];
 
 fetch(API_URL)
-.then(r=>r.json())
-.then(data=>{
-allData=data;
-render(data);
+.then(r => r.json())
+.then(data => {
+    allData = data;
+    render(data);
 });
 
-function render(data){
+function render(data) {
+    const gallery = document.getElementById("gallery");
+    // Nhóm dữ liệu theo thư mục
+    const grouped = data.reduce((acc, item) => {
+        const folder = item.folder || "Khác";
+        (acc[folder] = acc[folder] || []).push(item);
+        return acc;
+    }, {});
 
-const gallery=document.getElementById("gallery");
-
-gallery.innerHTML=data.map(item=>`
-<div class="card" onclick="openModal('${item.image}')">
-
-<img src="${item.image}">
-
-<div class="info">
-<div class="name">${item.name}</div>
-</div>
-
-</div>
-`).join("");
-
+    gallery.innerHTML = Object.keys(grouped).map(folder => `
+        <div class="folder-title">${folder}</div>
+        <div class="grid-container">
+            ${grouped[folder].map(item => `
+                <div class="card" onclick="openModal('${item.image}')">
+                    <img src="${item.image}" loading="lazy">
+                </div>
+            `).join("")}
+        </div>
+    `).join("");
 }
 
-document.getElementById("search")
-.addEventListener("keyup",e=>{
-
-const kw=e.target.value.toLowerCase();
-
-render(
-allData.filter(x=>
-x.name.toLowerCase().includes(kw)
-)
-);
-
+document.getElementById("search").addEventListener("keyup", e => {
+    const kw = e.target.value.toLowerCase();
+    render(allData.filter(x => x.name.toLowerCase().includes(kw)));
 });
 
 function openModal(src){
-document.getElementById("modal").style.display="block";
-document.getElementById("modalImg").src=src;
+    document.getElementById("modal").style.display="block";
+    document.getElementById("modalImg").src=src;
 }
-
 function closeModal(){
-document.getElementById("modal").style.display="none";
+    document.getElementById("modal").style.display="none";
 }
-
 </script>
-
 </body>
 </html>
