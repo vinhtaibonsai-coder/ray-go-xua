@@ -101,24 +101,50 @@ fetch(API_URL)
 });
 
 function render(data) {
-    const gallery = document.getElementById("gallery");
-    // Nhóm dữ liệu theo thư mục
-    const grouped = data.reduce((acc, item) => {
-        const folder = item.folder || "Khác";
-        (acc[folder] = acc[folder] || []).push(item);
-        return acc;
-    }, {});
 
-    gallery.innerHTML = Object.keys(grouped).map(folder => `
-        <div class="folder-title">${folder}</div>
-        <div class="grid-container">
-            ${grouped[folder].map(item => `
-                <div class="card" onclick="openModal('${item.image}')">
-                    <img src="${item.image}" loading="lazy">
-                </div>
-            `).join("")}
+    const gallery = document.getElementById("gallery");
+    const folderMenu = document.getElementById("folderMenu");
+
+    const grouped = data.reduce((acc,item)=>{
+        const folder=item.folder || "Khác";
+        (acc[folder]=acc[folder]||[]).push(item);
+        return acc;
+    },{});
+
+    folderMenu.innerHTML = Object.keys(grouped)
+      .map(folder=>`
+        <a href="#folder-${folder}">
+            ${folder} (${grouped[folder].length})
+        </a>
+      `)
+      .join("");
+
+    gallery.innerHTML = Object.keys(grouped)
+      .map(folder=>`
+
+        <div id="folder-${folder}">
+            <div class="folder-title">
+                ${folder} (${grouped[folder].length})
+            </div>
+
+            <div class="grid-container">
+
+                ${grouped[folder].map(item=>`
+
+                    <div class="card"
+                         onclick="openModal('${item.image}')">
+
+                        <img src="${item.image}" loading="lazy">
+
+                    </div>
+
+                `).join("")}
+
+            </div>
         </div>
-    `).join("");
+
+      `)
+      .join("");
 }
 
 document.getElementById("search").addEventListener("keyup", e => {
