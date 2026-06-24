@@ -238,7 +238,14 @@ onclick="selectFolder(
 this
 )">
 
+<div
+class="folder"
+style="padding-left:${12 + (f.level * 18)}px"
+onclick="selectFolder('${f.id}',this)">
+
 📁 ${f.name}
+
+</div>
 
 </div>
 
