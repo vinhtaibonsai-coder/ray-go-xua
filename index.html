@@ -301,12 +301,18 @@ currentPage
 const data =
 await res.json();
 
+console.log(data);
+
 const gallery =
-document
-.getElementById("gallery");
+document.getElementById("gallery");
 
-data.items.forEach(img=>{
+// Nếu API trả về mảng trực tiếp
+const images =
+Array.isArray(data)
+? data
+: (data.items || []);
 
+images.forEach(img=>{
 gallery.innerHTML += `
 
 <div
