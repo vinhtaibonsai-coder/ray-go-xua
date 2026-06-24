@@ -375,16 +375,21 @@ loadMore();
 
 function openModal(src){
 
-document
-.getElementById("modal")
-.style.display =
-"block";
+    console.log("OPEN:", src);
 
-document
-.getElementById("modalImg")
-.src =
-src;
+    const img = document.getElementById("modalImg");
 
+    img.onload = () => {
+        console.log("Ảnh tải thành công");
+    };
+
+    img.onerror = (e) => {
+        console.error("Lỗi tải ảnh", e);
+    };
+
+    img.src = src;
+
+    document.getElementById("modal").style.display = "block";
 }
 
 function closeModal(){
