@@ -375,29 +375,10 @@ loadMore();
 
 function openModal(src){
 
-    console.log("OPEN:", src);
-
-    const img = document.getElementById("modalImg");
-
-    img.onload = () => {
-        console.log("Ảnh tải thành công");
-    };
-
-    img.onerror = (e) => {
-        console.error("Lỗi tải ảnh", e);
-    };
-
-    img.src = src;
-
-    document.getElementById("modal").style.display = "block";
-}
-
-function closeModal(){
-
-document
-.getElementById("modal")
-.style.display =
-"none";
+window.open(
+  src,
+  "_blank"
+);
 
 }
 
