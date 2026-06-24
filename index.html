@@ -9,382 +9,388 @@
 <style>
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
 }
 
 body{
-    background:#f5f5f5;
+background:#f5f5f5;
 }
 
 .header{
-    height:60px;
-    background:#fff;
-    box-shadow:0 2px 10px rgba(0,0,0,.08);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    position:sticky;
-    top:0;
-    z-index:999;
+height:60px;
+background:#fff;
+position:sticky;
+top:0;
+z-index:999;
+display:flex;
+align-items:center;
+justify-content:center;
+box-shadow:0 2px 8px rgba(0,0,0,.08);
 }
 
 .logo{
-    font-size:22px;
-    font-weight:bold;
+font-size:22px;
+font-weight:bold;
 }
 
 .container{
-    display:flex;
-    min-height:calc(100vh - 60px);
+display:flex;
 }
-
-/* MENU */
 
 .sidebar{
-    width:260px;
-    background:#fff;
-    border-right:1px solid #e5e5e5;
-    overflow:auto;
-    position:sticky;
-    top:60px;
-    height:calc(100vh - 60px);
-}
-
-.sidebar-title{
-    padding:15px;
-    font-weight:bold;
-    border-bottom:1px solid #eee;
+width:250px;
+background:#fff;
+height:calc(100vh - 60px);
+overflow:auto;
+position:sticky;
+top:60px;
+border-right:1px solid #eee;
 }
 
 .folder{
-    padding:12px 15px;
-    cursor:pointer;
-    border-bottom:1px solid #f3f3f3;
-    transition:.2s;
+padding:12px;
+cursor:pointer;
+border-bottom:1px solid #f3f3f3;
 }
 
 .folder:hover{
-    background:#f4f7ff;
+background:#f5f5f5;
 }
 
 .folder.active{
-    background:#0068ff;
-    color:#fff;
+background:#0068ff;
+color:white;
 }
 
-/* CONTENT */
-
 .content{
-    flex:1;
-    padding:15px;
+flex:1;
+padding:10px;
 }
 
 .gallery{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-    gap:15px;
+display:grid;
+grid-template-columns:
+repeat(auto-fill,minmax(160px,1fr));
+gap:10px;
 }
 
 .card{
-    background:#fff;
-    border-radius:10px;
-    overflow:hidden;
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
-    cursor:pointer;
+background:#fff;
+border-radius:10px;
+overflow:hidden;
+cursor:pointer;
+box-shadow:0 2px 5px rgba(0,0,0,.08);
 }
 
 .card img{
-    width:100%;
-    height:220px;
-    object-fit:cover;
-    display:block;
+width:100%;
+aspect-ratio:1/1;
+object-fit:cover;
+display:block;
 }
 
 .card-name{
-    padding:10px;
-    font-size:13px;
-    word-break:break-word;
+padding:8px;
+font-size:12px;
 }
 
-/* LOADING */
-
-.loading{
-    text-align:center;
-    padding:30px;
-    font-size:18px;
+.loader{
+text-align:center;
+padding:20px;
 }
-
-/* MODAL */
 
 .modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.95);
-    z-index:9999;
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.95);
+z-index:9999;
 }
 
 .modal img{
-    max-width:95%;
-    max-height:95vh;
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
+max-width:95%;
+max-height:95vh;
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
 }
 
 .close{
-    position:absolute;
-    top:15px;
-    right:25px;
-    color:#fff;
-    font-size:40px;
-    cursor:pointer;
+position:absolute;
+top:15px;
+right:20px;
+font-size:40px;
+color:white;
+cursor:pointer;
 }
-
-/* MOBILE */
 
 @media(max-width:768px){
 
-    .container{
-        flex-direction:column;
-    }
+.container{
+display:block;
+}
 
-    .sidebar{
-        width:100%;
-        height:220px;
-        position:relative;
-        top:0;
-    }
+.sidebar{
+width:100%;
+height:180px;
+position:relative;
+top:0;
+}
 
-    .gallery{
-        grid-template-columns:repeat(2,1fr);
-    }
+.gallery{
+grid-template-columns:
+repeat(2,1fr);
+}
 
 }
 
 </style>
 </head>
+
 <body>
 
 <div class="header">
-    <div class="logo">GỖ LŨA THUỶ SINH</div>
+<div class="logo">
+GỖ LŨA THUỶ SINH
+</div>
 </div>
 
 <div class="container">
 
-    <div class="sidebar">
+<div
+class="sidebar"
+id="folderList">
 
-        <div class="sidebar-title">
-            Danh mục
-        </div>
-
-        <div id="folderList">
-            <div class="loading">
-                Đang tải danh mục...
-            </div>
-        </div>
-
-    </div>
-
-    <div class="content">
-
-        <div id="gallery">
-
-            <div class="loading">
-                Chọn danh mục để xem ảnh
-            </div>
-
-        </div>
-
-    </div>
+Đang tải danh mục...
 
 </div>
 
-<div id="modal" class="modal">
+<div class="content">
 
-    <span class="close" onclick="closeModal()">
-        &times;
-    </span>
+<div
+class="gallery"
+id="gallery">
+</div>
 
-    <img id="modalImg">
+<div
+class="loader"
+id="loader">
+</div>
+
+</div>
+
+</div>
+
+<div
+class="modal"
+id="modal">
+
+<span
+class="close"
+onclick="closeModal()">
+
+&times;
+
+</span>
+
+<img id="modalImg">
 
 </div>
 
 <script>
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbwC6qcyv2djvVCXROg0lpaG51dLDBcmZOc_ljmvfzzqJdZhGa3uGIA5th85SuAdzFPH7w/exec";
+"https://script.google.com/macros/s/PASTE_EXEC_URL/exec";
+
+let currentFolder = "";
+let currentPage = 1;
+let loading = false;
+let hasMore = true;
 
 loadFolders();
 
 async function loadFolders(){
 
-    try{
+const res =
+await fetch(
+API_URL +
+"?action=folders"
+);
 
-        const response =
-        await fetch(
-            API_URL + "?action=folders"
-        );
+const folders =
+await res.json();
 
-        const folders =
-        await response.json();
+document
+.getElementById("folderList")
+.innerHTML =
+folders.map(f=>`
 
-        if(!Array.isArray(folders)){
+<div
+class="folder"
+onclick="selectFolder(
+'${f.id}',
+this
+)">
 
-            document.getElementById(
-                "folderList"
-            ).innerHTML =
-            "<div class='loading'>Lỗi tải danh mục</div>";
+📁 ${f.name}
 
-            console.log(folders);
+</div>
 
-            return;
-        }
-
-        let html = "";
-
-        folders.forEach(folder=>{
-
-            html += `
-            <div
-                class="folder"
-                onclick="loadImages('${folder.id}',this)"
-            >
-                📁 ${folder.name}
-            </div>
-            `;
-
-        });
-
-        document.getElementById(
-            "folderList"
-        ).innerHTML = html;
-
-    }
-    catch(err){
-
-        console.error(err);
-
-        document.getElementById(
-            "folderList"
-        ).innerHTML =
-        "<div class='loading'>Không kết nối được API</div>";
-
-    }
+`).join("");
 
 }
 
-async function loadImages(folderId,el){
+async function selectFolder(
+folderId,
+el
+){
 
-    document
-    .querySelectorAll(".folder")
-    .forEach(x=>x.classList.remove("active"));
+document
+.querySelectorAll(".folder")
+.forEach(x=>
+x.classList.remove("active")
+);
 
-    el.classList.add("active");
+el.classList.add("active");
 
-    document.getElementById(
-        "gallery"
-    ).innerHTML =
-    "<div class='loading'>Đang tải ảnh...</div>";
+currentFolder =
+folderId;
 
-    try{
+currentPage = 1;
 
-        const response =
-        await fetch(
-            API_URL +
-            "?action=images&folderId=" +
-            folderId
-        );
+hasMore = true;
 
-        const images =
-        await response.json();
+document
+.getElementById("gallery")
+.innerHTML = "";
 
-        if(!Array.isArray(images)){
-
-            document.getElementById(
-                "gallery"
-            ).innerHTML =
-            "<div class='loading'>Không có dữ liệu</div>";
-
-            console.log(images);
-
-            return;
-        }
-
-        let html =
-        '<div class="gallery">';
-
-        images.forEach(img=>{
-
-            html += `
-            <div
-                class="card"
-                onclick="openModal('${img.full}')"
-            >
-                <img
-                    loading="lazy"
-                    src="${img.thumb}"
-                >
-
-                <div class="card-name">
-                    ${img.name}
-                </div>
-            </div>
-            `;
-
-        });
-
-        html += "</div>";
-
-        document.getElementById(
-            "gallery"
-        ).innerHTML = html;
-
-    }
-    catch(err){
-
-        console.error(err);
-
-        document.getElementById(
-            "gallery"
-        ).innerHTML =
-        "<div class='loading'>Lỗi tải ảnh</div>";
-
-    }
+loadMore();
 
 }
+
+async function loadMore(){
+
+if(
+loading ||
+!hasMore
+) return;
+
+loading = true;
+
+document
+.getElementById("loader")
+.innerHTML =
+"Đang tải...";
+
+const res =
+await fetch(
+
+API_URL +
+"?action=images" +
+"&folderId=" +
+currentFolder +
+"&page=" +
+currentPage
+
+);
+
+const data =
+await res.json();
+
+const gallery =
+document
+.getElementById("gallery");
+
+data.items.forEach(img=>{
+
+gallery.innerHTML += `
+
+<div
+class="card"
+onclick="openModal(
+'${img.full}'
+)">
+
+<img
+loading="lazy"
+src="${img.thumb}">
+
+<div
+class="card-name">
+
+${img.name}
+
+</div>
+
+</div>
+
+`;
+
+});
+
+hasMore =
+data.hasMore;
+
+currentPage++;
+
+loading = false;
+
+document
+.getElementById("loader")
+.innerHTML =
+hasMore
+?
+"Cuộn xuống để tải tiếp..."
+:
+"Đã tải hết";
+
+}
+
+window.addEventListener(
+"scroll",
+()=>{
+
+if(
+window.innerHeight +
+window.scrollY
+>=
+document.body.offsetHeight
+- 800
+){
+
+loadMore();
+
+}
+
+}
+);
 
 function openModal(src){
 
-    document.getElementById(
-        "modal"
-    ).style.display = "block";
+document
+.getElementById("modal")
+.style.display =
+"block";
 
-    document.getElementById(
-        "modalImg"
-    ).src = src;
+document
+.getElementById("modalImg")
+.src =
+src;
 
 }
 
 function closeModal(){
 
-    document.getElementById(
-        "modal"
-    ).style.display = "none";
+document
+.getElementById("modal")
+.style.display =
+"none";
 
 }
-
-document.getElementById("modal")
-.addEventListener("click",function(e){
-
-    if(e.target.id==="modal")
-        closeModal();
-
-});
 
 </script>
 
