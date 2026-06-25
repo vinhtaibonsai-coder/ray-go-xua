@@ -206,7 +206,7 @@ onclick="closeModal()">
 <script>
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbyipdL4XGA-Rm-HqPvXhXISuPQKS2KBbD_cOgz-aaKgnUovqSRBbTo-LKiVHhDIoyS_Dg/exec";
+"https://script.google.com/macros/s/AKfycbwC6qcyv2djvVCXROg0lpaG51dLDBcmZOc_ljmvfzzqJdZhGa3uGIA5th85SuAdzFPH7w/exec";
 
 let currentFolder = "";
 let currentPage = 1;
@@ -238,14 +238,7 @@ onclick="selectFolder(
 this
 )">
 
-<div
-class="folder"
-style="padding-left:${12 + (f.level * 18)}px"
-onclick="selectFolder('${f.id}',this)">
-
 📁 ${f.name}
-
-</div>
 
 </div>
 
@@ -382,10 +375,24 @@ loadMore();
 
 function openModal(src){
 
-window.open(
-  src,
-  "_blank"
-);
+document
+.getElementById("modal")
+.style.display =
+"block";
+
+document
+.getElementById("modalImg")
+.src =
+src;
+
+}
+
+function closeModal(){
+
+document
+.getElementById("modal")
+.style.display =
+"none";
 
 }
 
